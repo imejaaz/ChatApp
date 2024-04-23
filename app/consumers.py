@@ -1,15 +1,23 @@
-from channels.consumer import SyncConsumer
+from channels.generic.websocket import WebsocketConsumer, AsyncWebsocketConsumer
+from time import sleep
+import asyncio
 
-class ChatConsumer(SyncConsumer):
+class ChatConsumer(AsyncWebsocketConsumer):
 
-    def websocket_connect(self, event):
-        print('connected')
-        self.send({
-            "type": "websocket.accept",
-        })
 
-    def websocket_receive(self, event):
-        self.send({
-            "type": "websocket.send",
-            "text": event["text"],
-        })
+    async def connect(self):
+       await self.accept()
+       
+       print('connection created')
+       
+    
+
+    async def receive(self, text_data=None, bytes_data=None):
+        
+        for i in range (30):
+            await self.send(text_data="Hello world!")
+            await asyncio.sleep(1)
+  
+
+    async def disconnect(self, close_code):
+        print('connection has beed ended')
