@@ -424,16 +424,17 @@
     <button class="btn_login" onclick="change_to_login()">LOGIN</button>
       </div>
       
-    <div class="cont_form_sign_up">    
+    <form class="cont_form_sign_up" action=" {% url 'account' %} " method="post">    
     <a href="#" onclick="hidden_login_and_sign_up()"><i class="material-icons">&#xE5C4;</i></a>
          <h2>SIGN UP</h2>
-    <input type="text" placeholder="Email" />
-    <input type="text" placeholder="User" />
-    <input type="password" placeholder="Password" />
-    <input type="password" placeholder="Confirm Password" />
+         {%csrf_token%}
+    <input type="text" name="email" placeholder="Email" />
+    <input type="text" name="username" placeholder="User" />
+    <input type="password" name="password" placeholder="Password" />
+    <input type="password" name="confirm_password" placeholder="Confirm Password" />
     <button class="btn_sign_up" onclick="change_to_sign_up()">Registered</button>
     
-      </div>
+    </form>
     
         </div>
         
