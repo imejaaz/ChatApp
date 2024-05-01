@@ -416,13 +416,14 @@
         <div class="cont_img_back_">
            <img src="https://images.unsplash.com/42/U7Fc1sy5SCUDIu4tlJY3_NY_by_PhilippHenzler_philmotion.de.jpg?ixlib=rb-0.3.5&q=50&fm=jpg&crop=entropy&s=7686972873678f32efaf2cd79671673d" alt="" />
            </div>
-     <div class="cont_form_login">
+     <form class="cont_form_login" method="post" action="{%url 'account'%}">
     <a href="#" onclick="hidden_login_and_sign_up()" ><i class="material-icons">&#xE5C4;</i></a>
        <h2>LOGIN</h2>
-     <input type="text" placeholder="Email" />
-    <input type="password" placeholder="Password" />
+         {% csrf_token %}
+     <input type="text" name="login_username" placeholder="Username" />
+    <input type="password" name="password" placeholder="Password" />
     <button class="btn_login" onclick="change_to_login()">LOGIN</button>
-      </div>
+     </form>
       
     <form class="cont_form_sign_up" action=" {% url 'account' %} " method="post">    
     <a href="#" onclick="hidden_login_and_sign_up()"><i class="material-icons">&#xE5C4;</i></a>
