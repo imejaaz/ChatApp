@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .profile-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .profile-picture {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+        .profile-info {
+            margin-bottom: 20px;
+        }
+        .profile-info h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .profile-info p {
+            font-size: 16px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+<div class="profile-container">
+    <!-- Profile Picture -->
+    <img src="{% if user.profile.picture %}{{ user.profile.picture.url }}{% else %}https://via.placeholder.com/150{% endif %}" alt="Profile Picture" class="profile-picture">
+
+    <!-- Profile Information -->
+    <div class="profile-info">
+        <h2>{{ user.username }}</h2>
+        <p>{{ user.profile.bio }}</p>
+
+        <hr>
+
+        <h3>Contact Information</h3>
+        <p>Email: {{ user.email }}</p>
+        <p>Phone: {{ user.profile.phone_number }}</p>
+
+        <hr>
+
+        <h3>Additional Details</h3>
+        <p>Location: {{ user.profile.location }}</p>
+        <p>Birthday: {{ user.profile.birth_date }}</p>
+    </div>
+</div>
+
+</body>
+</html>

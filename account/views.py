@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 def index(request):
     return render(request, 'account/index.html')
 
@@ -30,8 +30,14 @@ def signup(request):
                 return HttpResponse('password is not same')
             user = User.objects.create_user(username, email, password)
             print('Register successfully')
-            return redirect('home')
-        
+            return redirect('signup')
 
     return render(request, 'account/login.html')
     
+def logout_view(request):
+    if request.user.is_authenticated:
+        logout(request)
+        return redirect('signup')
+
+def profile_view(request):
+    return render(request, 'account/profile.html')
