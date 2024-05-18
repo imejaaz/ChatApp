@@ -16,7 +16,7 @@ def signup(request):
             if user is not None:
                 login(request, user)
                 print('Login successfully')
-                return redirect('/post/')
+                return redirect('/post/post-list/')
             print('invalid input')
             return HttpResponse("invalid input")
 

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ post.title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .post-header img {
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .post-header .user-name {
+            font-weight: bold;
+        }
+
+        .post-header .timestamp {
+            color: #777;
+            font-size: 0.9em;
+            margin-left: 10px;
+        }
+
+        .post-content {
+            margin-top: 20px;
+        }
+
+        .post-footer {
+            margin-top: 20px;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="post-header">
+        <img src="https://via.placeholder.com/40" alt="User Image">
+        <div>
+            <span class="user-name">{{ post.author.username }}</span>
+            <span class="timestamp">{{ post.created_at|timesince }} ago</span>
+        </div>
+    </div>
+    <h1>{{ post.title }}</h1>
+    <div class="post-content">
+        <p>{{ post.content }}</p>
+        {% if post.image %}
+            <img src="{{ post.image.url }}" alt="{{ post.title }}" style="max-width: 100%; margin-top: 20px;">
+        {% endif %}
+    </div>
+    <div class="post-footer">
+        <a href="{% url 'post-list' %}">Back to Posts</a>
+    </div>
+</div>
+
+</body>
+</html>

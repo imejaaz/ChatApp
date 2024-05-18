@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media Page</title>
+    <style>
+        /* General reset */
+        body, h1, h2, h3, p, ul, li, img {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            border: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+        }
+
+        .header {
+            background-color: #3b5998;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+        }
+
+        .post {
+            background-color: white;
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .post-header img {
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .post-header .user-name {
+            font-weight: bold;
+        }
+
+        .post-header .timestamp {
+            color: #777;
+            font-size: 0.9em;
+            margin-left: 10px;
+        }
+
+        .post-content {
+            margin-bottom: 15px;
+        }
+
+        .post-footer {
+            display: flex;
+            justify-content: space-around;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+        }
+
+        .post-footer button {
+            background: none;
+            border: none;
+            color: #4267B2;
+            cursor: pointer;
+            font-size: 1em;
+            padding: 5px 10px;
+        }
+
+        .post-footer button:hover {
+            text-decoration: underline;
+        }
+
+        .new-post {
+            background-color: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .new-post textarea {
+            width: 100%;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            font-size: 1em;
+            margin-bottom: 10px;
+        }
+
+        .new-post button {
+            background-color: #4267B2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .new-post button:hover {
+            background-color: #365899;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div class="logo">WeChat</div>
+    <div class="nav-links">
+        <a href="#post">Post</a>
+        <a href="#chat">Chat</a>
+        <a href="#friends">Friends</a>
+        <a href="#profile">Profile</a>
+        <a href="#profile">Logout</a>
+    </div>
+</div>
+
+<div class="container">
+    <div class="header">
+        <h1>Social Posts</h1>
+    </div>
+
+    <div class="new-post">
+        <h2>Create a New Post</h2>
+        <textarea id="postContent" placeholder="What's on your mind?" rows="4"></textarea>
+        <button onclick="addPost()">Post</button>
+    </div>
+
+
+
+        {% for post in post %}
+
+        <div class="post">
+            <div class="post-header">
+                <img src="https://via.placeholder.com/40" alt="User Image">
+                <div>
+                    <span class="user-name">{{ post.author }}</span>
+                    <span class="timestamp">{{ post.created_at|timesince }}</span>
+                </div>
+            </div>
+            <div class="post-content">
+                <p>{{ post.content|truncatewords:20 }}</p>
+                   {% if post.content|wordcount > 20 %}
+                <a href="{% url 'open' post.id %}">Read More</a>
+
+            {% endif %}
+            </div>
+            <div class="post-footer">
+                <button>Like</button>
+                <button>Comment</button>
+                <button>Share</button>
+            </div>
+        </div>
+
+        {% endfor %}
+
+
+
+    </div>
+
+</div>
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $(".read-more").click(function(event) {
+            event.preventDefault();
+            var postContent = $(this).siblings(".content");
+            var fullContent = postContent.data("full-content");
+            postContent.html(fullContent);
+            $(this).hide();
+        });
+    });
+</script>
+
+
+
+
+<script>
+
+
+    function addPost() {
+        const postContent = document.getElementById('postContent').value;
+        if (postContent.trim() === '') {
+            alert('Please enter some content for your post.');
+            return;
+        }
+
+        const postsContainer = document.getElementById('postsContainer');
+
+        const newPost = document.createElement('div');
+        newPost.classList.add('post');
+
+        newPost.innerHTML = `
+            <div class="post-header">
+                <img src="https://via.placeholder.com/40" alt="User Image">
+                <div>
+                    <span class="user-name">You</span>
+                    <span class="timestamp">Just now</span>
+                </div>
+            </div>
+            <div class="post-content">
+                <p>${postContent}</p>
+            </div>
+            <div class="post-footer">
+                <button>Like</button>
+                <button>Comment</button>
+                <button>Share</button>
+            </div>
+        `;
+
+        postsContainer.prepend(newPost);
+        document.getElementById('postContent').value = '';
+    }
+</script>
+
+</body>
+</html>
